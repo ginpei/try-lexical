@@ -7,7 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.ui-container {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: min(100%, 960px);
 }
