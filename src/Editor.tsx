@@ -3,9 +3,9 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import LexicalContentEditable from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
-import LexicalPlainTextPlugin from '@lexical/react/LexicalPlainTextPlugin';
+import LexicalRichTextPlugin from "@lexical/react/LexicalRichTextPlugin";
 import LexicalTreeView from "@lexical/react/LexicalTreeView";
-import { $getRoot, $getSelection, EditorState } from 'lexical';
+import { $getRoot, $getSelection, EditorState, FORMAT_TEXT_COMMAND } from 'lexical';
 import { useEffect } from 'react';
 import "./Editor.css";
 
@@ -37,7 +37,8 @@ export function Editor() {
   return (
     <div className="Editor">
       <LexicalComposer initialConfig={initialConfig}>
-        <LexicalPlainTextPlugin
+        <Toolbar />
+        <LexicalRichTextPlugin
           contentEditable={<LexicalContentEditable />}
           placeholder={placeholder}
         />
@@ -46,6 +47,20 @@ export function Editor() {
         <HistoryPlugin />
         <MyCustomAutoFocusPlugin />
       </LexicalComposer>
+    </div>
+  );
+}
+
+function Toolbar() {
+  const [editor] = useLexicalComposerContext();
+
+  const onBoldClick = () => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
+  };
+
+  return (
+    <div className="Editor-toolbar">
+      <button onClick={onBoldClick}>Bold</button>
     </div>
   );
 }
