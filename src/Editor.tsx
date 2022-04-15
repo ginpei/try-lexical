@@ -4,6 +4,7 @@ import LexicalContentEditable from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
 import LexicalPlainTextPlugin from '@lexical/react/LexicalPlainTextPlugin';
+import LexicalTreeView from "@lexical/react/LexicalTreeView";
 import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { useEffect } from 'react';
 import "./Editor.css";
@@ -41,10 +42,25 @@ export function Editor() {
           placeholder={placeholder}
         />
         <LexicalOnChangePlugin onChange={onChange} />
+        <TreeViewPlugin />
         <HistoryPlugin />
         <MyCustomAutoFocusPlugin />
       </LexicalComposer>
     </div>
+  );
+}
+
+function TreeViewPlugin() {
+  const [editor] = useLexicalComposerContext();
+  return (
+    <LexicalTreeView
+      editor={editor}
+      timeTravelButtonClassName="Editor-treeView-timeTravel-button"
+      timeTravelPanelButtonClassName="Editor-treeView-timeTravel-sliderButton"
+      timeTravelPanelClassName="Editor-treeView-timeTravel-panel"
+      timeTravelPanelSliderClassName="Editor-treeView-timeTravel-slider"
+      viewClassName="Editor-treeView"
+    />
   );
 }
 
