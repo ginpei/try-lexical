@@ -1,7 +1,9 @@
+import { LinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import LexicalComposer from '@lexical/react/LexicalComposer';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import LexicalContentEditable from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import LinkPlugin from "@lexical/react/LexicalLinkPlugin";
 import LexicalOnChangePlugin from '@lexical/react/LexicalOnChangePlugin';
 import LexicalRichTextPlugin from "@lexical/react/LexicalRichTextPlugin";
 import LexicalTreeView from "@lexical/react/LexicalTreeView";
@@ -31,6 +33,10 @@ const initialConfig: LexicalComposerInitialConfig = {
    * try to recover gracefully without losing user data.
    */
   onError(error: unknown) { console.error(error); },
+
+  nodes: [
+    LinkNode,
+  ],
 };
 
 export function Editor() {
@@ -45,6 +51,7 @@ export function Editor() {
         <LexicalOnChangePlugin onChange={onChange} />
         <TreeViewPlugin />
         <HistoryPlugin />
+        <LinkPlugin />
         <MyCustomAutoFocusPlugin />
       </LexicalComposer>
     </div>
@@ -58,9 +65,29 @@ function Toolbar() {
     editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
   };
 
+  const onItalicClick = () => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+  };
+
+  const onLinkClick = () => {
+    // TODO handle in script
+    const url = prompt("Enter a URL", "https://exampe.com");
+    if (!url) {
+      return;
+    }
+
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
+  };
+
   return (
     <div className="Editor-toolbar">
-      <button onClick={onBoldClick}>Bold</button>
+      <div className="Editor-toolbarGroup">
+        <button onClick={onBoldClick} style={{ fontWeight: 'bold' }}>Bold</button>
+        <button onClick={onItalicClick} style={{ fontStyle: 'italic' }}>Italic</button>
+      </div>
+      <div className="Editor-toolbarGroup">
+        <button onClick={onLinkClick} style={{ textDecoration: 'underline' }}>Link</button>
+      </div>
     </div>
   );
 }

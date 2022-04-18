@@ -17,6 +17,12 @@
   z-index: -1;
 }
 
+.Editor-toolbar {
+  display: flex;
+  gap: 1rem;
+  padding: 0 0.5rem;
+}
+
 .Editor-treeView {
   background-color: #333;
   color: white;
